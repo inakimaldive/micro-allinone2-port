@@ -8,14 +8,22 @@ module.exports = async (req, res) => {
     return res.status(500).json({ error: 'GitHub PAT not configured' });
   }
 
+  const { title, content } = req.body;
+
   try {
-    const response = await fetch('https://api.github.com/repos/IgnatMaldive/micro-allinone2/dispatches', {
+    const response = await fetch('https://api.github.com/repos/inakimaldive/micro-allinone2-port/dispatches', {
       method: 'POST',
       headers: {
         'Accept': 'application/vnd.github.v3+json',
         'Authorization': `token ${pat}`,
       },
-      body: JSON.stringify({ event_type: 'create-dated-file' }),
+      body: JSON.stringify({ 
+        event_type: 'create-dated-file',
+        client_payload: {
+          title: title || 'New Post',
+          content: content || ''
+        }
+      }),
     });
 
     if (response.ok) {

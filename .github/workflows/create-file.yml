@@ -16,10 +16,16 @@ jobs:
       - name: Create dated file
         run: |
           now=$(date +"%Y-%m-%d-%H-%M-%S")
+          title=${{ github.event.client_payload.title || 'New Post' }}
+          content=${{ github.event.client_payload.content || '' }}
+          slug=$(echo "$title" | iconv -t ascii//TRANSLIT | sed -r s/[^a-zA-Z0-9]+/-/g | sed -r s/^-+\|-+$//g | tr A-Z a-z)
+          filename="$now-$slug.md"
+
           mkdir -p contents
-          touch "contents/$now.md"
+          echo -e "---\ntitle: $title\ndate: $now\n---\n\n$content" > "contents/$filename"
+
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add contents
-          git commit -m "Create dated file: $now.md"
+          git add "contents/$filename"
+          git commit -m "Create post: $title"
           git push
