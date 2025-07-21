@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+   <head>
+      <title>{{ post.title }}</title>
+      <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+   </head>
+   <body>
+      <a href="/">Back to Home</a>
+      <hr>
+      <h1>{{ post.title }}</h1>
+      <div>
+         {{ post.html_content | safe }}
+      </div>
+   </body>
+</html>

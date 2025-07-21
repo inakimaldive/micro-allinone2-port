@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Check and kill conflicting processes on port 5000
 echo "Checking for processes on port 5000..."
@@ -14,8 +14,8 @@ fi
 
 # Activate the virtual environment
 echo "Activating virtual environment..."
-source myenv/bin/activate
+. myenv/bin/activate
 
 # Run the Flask application
 echo "Starting Flask application..."
-flask run
+./myenv/bin/flask run
